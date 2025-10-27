@@ -44,15 +44,15 @@ class Str
      * Append a path in dot notation with a new segment
      * @param string $dotPath           The current dot path
      * @param string|string[] $appendix    The new segment of the path
-     * @param bool $leadingDelimiter    if TRUE, the delimiter is appended to the end of the path
+     * @param bool $trailingDelimiter    if TRUE, the delimiter is appended to the end of the path
      * @param string $delimiter         The standard dot delimiter in dot notation
      * @return void
      */
     public static function AppendDotPath(
-        string &$dotPath,
+        string       &$dotPath,
         string|array $appendix,
-        bool $leadingDelimiter=false,
-        string $delimiter=self::STD_DOT_DEL
+        bool         $trailingDelimiter=false,
+        string       $delimiter=self::STD_DOT_DEL
     ):void
     {
         if(is_array($appendix)){
@@ -64,14 +64,14 @@ class Str
         if(empty($dotPath)) {
             $dotPath = $appendix;
         }else{
-            $hasLeadingDelimiter = substr($dotPath,-1)==$delimiter;
-            if($hasLeadingDelimiter) {
+            $hasTrailingDelimiter = substr($dotPath,-1)==$delimiter;
+            if($hasTrailingDelimiter) {
                 $dotPath .= $appendix;
             }else{
                 $dotPath .= $delimiter.$appendix;
             }
         }
-        if($leadingDelimiter) {
+        if($trailingDelimiter) {
             $dotPath .= $delimiter;
         }
     }
