@@ -60,6 +60,10 @@ class Str
                 throw new \InvalidArgumentException('Appendix should be a string or a list of strings');
             }
             $appendix = implode($delimiter, $appendix);
+        }else{
+            if(str_contains($appendix, $delimiter)){
+                throw new \InvalidArgumentException('Appendix cannot contain the delimiter');
+            }
         }
         if(empty($dotPath)) {
             $dotPath = $appendix;
