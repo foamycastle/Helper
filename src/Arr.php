@@ -31,4 +31,33 @@ class Arr
         }
         Str::TruncateDotPath($path,1);
     }
+
+    /**
+     * Given a path, retrieve a value from the array tree
+     * @param array $input The array to traverse
+     * @param string $path The path within the array from which a value will be retrieved
+     * @param string $delimiter The delimiter used in the path.  By default, this is a dot
+     * @return mixed            If the path within the array does not exist, returns `null`
+     * @throws \Exception
+     */
+    public static function Traverse(array $input,string $path, string $delimiter=Str::STD_DOT_DEL):mixed
+    {
+        if(empty($delimiter)) {
+            throw new \Exception("Delimiter cannot be empty");
+        }
+        //convert the path to a queue
+        $pathQueue = explode($delimiter, $path);
+        if(empty($pathQueue)) {
+            throw new \Exception('The path string does not contain the delimiter');
+        }
+
+        do{
+            $findElement = array_shift($pathQueue);
+            if(!isset($input[$findElement])) {
+                return null;
+            }
+            $input = $input[$findElement];
+        }while(count($pathQueue)>0);
+        return $input;
+    }
 }
