@@ -8,6 +8,11 @@ namespace Foamycastle\Utilities;
 class Str
 {
     /**
+     * The standard delimiter in dot path notation
+     */
+    public const string STD_DOT_DEL = ".";
+
+    /**
      * Return the string representation of a boolean
      * @param bool $bool bool to conversion
      * @param bool $caps if true, return the string in all caps
@@ -35,4 +40,39 @@ class Str
         return false;
     }
 
+    /**
+     * Append a path in dot notation with a new segment
+     * @param string $dotPath           The current dot path
+     * @param string|string[] $appendix    The new segment of the path
+     * @param bool $leadingDelimiter    if TRUE, the delimiter is appended to the end of the path
+     * @param string $delimiter         The standard dot delimiter in dot notation
+     * @return void
+     */
+    public static function AppendDotPath(
+        string &$dotPath,
+        string|array $appendix,
+        bool $leadingDelimiter=false,
+        string $delimiter=self::STD_DOT_DEL
+    ):void
+    {
+        if(is_array($appendix)){
+            if(!array_is_list($appendix)){
+                throw new \InvalidArgumentException('Appendix should be a string or a list of strings');
+            }
+            $appendix = implode($delimiter, $appendix);
+        }
+        if(empty($dotPath)) {
+            $dotPath = $appendix;
+        }else{
+            $hasLeadingDelimiter = substr($dotPath,-1)==$delimiter;
+            if($hasLeadingDelimiter) {
+                $dotPath .= $appendix;
+            }else{
+                $dotPath .= $delimiter.$appendix;
+            }
+        }
+        if($leadingDelimiter) {
+            $dotPath .= $delimiter;
+        }
+    }
 }
