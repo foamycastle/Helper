@@ -75,4 +75,39 @@ class Str
             $dotPath .= $delimiter;
         }
     }
+
+    /**
+     * Remove elements from a path in dot notation
+     * @param string $dotPath           The path being truncated
+     * @param int $removeElements       The number of elements to remove from the path
+     * @param bool $trailingDelimiter   if TRUE, leave a trailing delimiter on the path
+     * @param string $delimiter         the standard dot delimiter
+     * @return void
+     */
+    public static function TruncateDotPath(
+        string  &$dotPath,
+        int     $removeElements = 0,
+        bool    $trailingDelimiter=false,
+        string  $delimiter=self::STD_DOT_DEL
+    ):void
+    {
+        $length = strlen($dotPath);
+        $hasTrailingDelimiter = substr($dotPath,-1)==$delimiter;
+        if($hasTrailingDelimiter) {
+            $dotPath = substr($dotPath,0,$length-1);
+            $length = strlen($dotPath);
+        }
+        while($removeElements>0 && $length!=0) {
+            $lastDelimiter = strrpos($dotPath, $delimiter);
+            if($lastDelimiter===false){
+                $lastDelimiter=0;
+            }
+            $dotPath = substr($dotPath,0,$lastDelimiter);
+            $removeElements--;
+            $length=strlen($dotPath);
+        }
+        if($trailingDelimiter && $length!=0) {
+            $dotPath .= $delimiter;
+        }
+    }
 }
