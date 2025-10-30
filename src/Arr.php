@@ -10,7 +10,7 @@ class Arr
      * @param array $outputArray
      * @param string $path
      * @param string $delimiter
-     * @return array
+     * @return void
      */
     public static function Flatten(
         array $input,
