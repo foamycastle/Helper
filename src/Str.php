@@ -8,6 +8,18 @@ namespace Foamycastle\Utilities;
 class Str
 {
     /**
+     * Compare strings in a binary-safe manner
+     */
+    public const int CMP_BIN=0;
+    /**
+     * Compare strings in a case-sensitive manner
+     */
+    public const int CMP_CS=1;
+    /**
+     * Compare strings in a case-insensitive manner
+     */
+    public const int CMP_CIS=2;
+    /**
      * The standard delimiter in dot path notation
      */
     public const string STD_DOT_DEL = ".";
@@ -113,5 +125,41 @@ class Str
         if($trailingDelimiter && $length!=0) {
             $dotPath .= $delimiter;
         }
+    }
+
+    /**
+     * Test the left side of a string for equality to an input
+     * @param string $input The input string
+     * @param string $test  The string to test for
+     * @param int<Str::CMP_BIN|Str::CMP_CS|Str::CS_CIS> $cmp The manner in which comparison is performed
+     * @return bool
+     */
+    public static function Left(string $input,string $test,int $cmp=Str::CMP_CS):bool
+    {
+        $testLength = strlen($test);
+        return match ($cmp) {
+            Str::CMP_BIN=>  strcmp($test,substr($input,0,$testLength))==0,
+            Str::CMP_CS=>   $test===substr($input,$testLength),
+            Str::CMP_CIS=>  strtoupper($test)===strtoupper(substr($input,$testLength)),
+            default=>false
+        };
+    }
+    /**
+     * Test the left side of a string for equality to an input
+     * @param string $input The input string
+     * @param string $test  The string to test for
+     * @param int<Str::CMP_BIN|Str::CMP_CS|Str::CS_CIS> $cmp The manner in which comparison is performed
+     * @return bool
+     */
+    public static function Right(string $input,string $test,int $cmp=Str::CMP_CS):bool
+    {
+        $inputLength = strlen($input);
+        $testLength = strlen($test);
+        return match ($cmp) {
+            Str::CMP_BIN=>  strcmp($test,substr($input,$testLength-$inputLength))==0,
+            Str::CMP_CS=>   $test===substr($input,$testLength-$inputLength),
+            Str::CMP_CIS=>  strtoupper($test)===strtoupper(substr($input,$testLength-$inputLength)),
+            default=>false
+        };
     }
 }
