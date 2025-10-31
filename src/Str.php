@@ -136,7 +136,7 @@ class Str
      */
     public static function Left(string $input,string|array $test,int $cmp=Str::CMP_CS):bool
     {
-        $testLength = strlen($test);
+
         if(is_string($test)){
             $test=[$test];
         }else{
@@ -145,7 +145,8 @@ class Str
                 $test = array_values($test);
             }
         }
-        $filtered=array_filter($test,function($val) use($cmp,$testLength,$input) {
+        $filtered=array_filter($test,function($val) use($cmp,$input) {
+            $testLength = strlen($val);
             return match ($cmp) {
                 Str::CMP_BIN=>  strcmp($val,substr($input,0,$testLength))==0,
                 Str::CMP_CS=>   $val===substr($input,0,$testLength),
@@ -165,7 +166,7 @@ class Str
      */
     public static function Right(string $input,string|array $test,int $cmp=Str::CMP_CS):bool
     {
-        $testLength = strlen($test);
+
         if(is_string($test)){
             $test=[$test];
         }else{
@@ -174,7 +175,8 @@ class Str
                 $test = array_values($test);
             }
         }
-        $filtered=array_filter($test,function($val) use($cmp,$testLength,$input) {
+        $filtered=array_filter($test,function($val) use($cmp,$input) {
+            $testLength = strlen($val);
             return match ($cmp) {
                 Str::CMP_BIN=>  strcmp($val,substr($input,-$testLength))==0,
                 Str::CMP_CS=>   $val===substr($input,-$testLength),
