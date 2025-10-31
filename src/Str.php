@@ -130,19 +130,30 @@ class Str
     /**
      * Test the left side of a string for equality to an input
      * @param string $input The input string
-     * @param string $test  The string to test for
+     * @param string|array $test The string to test for
      * @param int<Str::CMP_BIN|Str::CMP_CS|Str::CS_CIS> $cmp The manner in which comparison is performed
      * @return bool
      */
-    public static function Left(string $input,string $test,int $cmp=Str::CMP_CS):bool
+    public static function Left(string $input,string|array $test,int $cmp=Str::CMP_CS):bool
     {
         $testLength = strlen($test);
-        return match ($cmp) {
-            Str::CMP_BIN=>  strcmp($test,substr($input,0,$testLength))==0,
-            Str::CMP_CS=>   $test===substr($input,$testLength),
-            Str::CMP_CIS=>  strtoupper($test)===strtoupper(substr($input,$testLength)),
-            default=>false
-        };
+        if(is_string($test)){
+            $test=[$test];
+        }else{
+            if(!array_is_list($test)) {
+                Arr::flatten($test);
+                $test = array_values($test);
+            }
+        }
+        $filtered=array_filter($test,function($val) use($cmp,$testLength,$input) {
+            return match ($cmp) {
+                Str::CMP_BIN=>  strcmp($val,substr($input,0,$testLength))==0,
+                Str::CMP_CS=>   $val===substr($input,0,$testLength),
+                Str::CMP_CIS=>  strtoupper($val)===strtoupper(substr($input,0,$testLength)),
+                default=>false
+            };
+        });
+        return count($filtered)>0;
     }
 
     /**
@@ -152,7 +163,7 @@ class Str
      * @param int<Str::CMP_BIN|Str::CMP_CS|Str::CS_CIS> $cmp The manner in which comparison is performed
      * @return bool
      */
-    public static function Right(string $input,string $test,int $cmp=Str::CMP_CS):bool
+    public static function Right(string $input,string|array $test,int $cmp=Str::CMP_CS):bool
     {
         $testLength = strlen($test);
         if(is_string($test)){
