@@ -149,7 +149,7 @@ class Str
             $testLength = strlen($val);
             return match ($cmp) {
                 Str::CMP_BIN=>  strcmp($val,substr($input,0,$testLength))==0,
-                Str::CMP_CS=>   $val===substr($input,0,$testLength),
+                Str::CMP_CS=>   str_starts_with($val,substr($input,$testLength)),
                 Str::CMP_CIS=>  strtoupper($val)===strtoupper(substr($input,0,$testLength)),
                 default=>false
             };
@@ -179,7 +179,7 @@ class Str
             $testLength = strlen($val);
             return match ($cmp) {
                 Str::CMP_BIN=>  strcmp($val,substr($input,-$testLength))==0,
-                Str::CMP_CS=>   $val===substr($input,-$testLength),
+                Str::CMP_CS=>   str_ends_with($val,$input),
                 Str::CMP_CIS=>  strtoupper($val)===strtoupper(substr($input,-$testLength)),
                 default=>false
             };
