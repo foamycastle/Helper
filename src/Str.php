@@ -207,4 +207,25 @@ class Str
         }
         return $data;
     }
+
+    /**
+     * Limits a string to a given length
+     * @param string $input the string in need of truncating
+     * @param int $len      the desired length to which the input shall be truncated
+     * @param bool $ellipses if TRUE, the string will be truncate 3 characters less than `$len` and an ellipsis will be added
+     * @return string
+     */
+    public static function LimitToLen(string $input,int $len,bool $ellipses=false):string
+    {
+
+        if(strlen($input)>=$len){
+            if($ellipses){
+                $output=substr($input,0,$len-3)."...";
+            }else{
+                $output=substr($input,0,$len);
+            }
+            return $output;
+        }
+        return $input;
+    }
 }
