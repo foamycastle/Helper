@@ -186,4 +186,25 @@ class Str
         });
         return count($filtered)>0;
     }
+
+    /**
+     * Extract a string from other data types, such as objects and callables
+     * @param mixed $data
+     * @return string
+     */
+    public static function StringFrom(mixed $data):string
+    {
+        if (is_object($data)) {
+            if ($data instanceof \Stringable and method_exists($data, '__toString')) {
+                $data = $data->__toString();
+            }
+        }
+        if ($data instanceof \Closure) {
+            $data=$data(...)();
+        }
+        if(is_callable($data)){
+            $data=$data();
+        }
+        return $data;
+    }
 }
