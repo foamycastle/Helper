@@ -205,6 +205,12 @@ class Str
         if(is_callable($data)){
             $data=$data();
         }
+        if(is_bool($data)){
+            $data = ($data)?'true':'false';
+        }
+        if(is_array($data)){
+            $data = implode(',',$data);
+        }
         return $data;
     }
 
