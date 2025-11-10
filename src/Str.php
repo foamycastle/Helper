@@ -234,4 +234,8 @@ class Str
         }
         return $input;
     }
+    public static function FilterNonAlpha(string $input):string
+    {
+        return preg_replace('/^[^a-zA-Z][^A-Za-z0-9]/','',$input);
+    }
 }
