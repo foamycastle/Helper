@@ -209,7 +209,7 @@ class Str
             $data = ($data)?'true':'false';
         }
         if(is_array($data)){
-            $data = json_encode($data);
+            $data = json_encode($data, JSON_UNESCAPED_LINE_TERMINATORS|JSON_UNESCAPED_SLASHES);
         }
         return $data;
     }
