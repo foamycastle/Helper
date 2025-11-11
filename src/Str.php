@@ -194,6 +194,9 @@ class Str
      */
     public static function StringFrom(mixed $data):string
     {
+        if(is_null($data)){
+            return 'null';
+        }
         if (is_object($data)) {
             if ($data instanceof \Stringable and method_exists($data, '__toString')) {
                 $data = $data->__toString();
