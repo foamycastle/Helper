@@ -1,6 +1,9 @@
 {
   "name": "foamycastle/helper",
   "description": "a library of helpful functions",
+  "type": "package",
+  "version": "0.5.1",
+  "license": "GPL-3.0-or-later",
   "autoload": {
     "psr-4": {
       "Foamycastle\\Utilities\\": "src"
