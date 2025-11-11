@@ -209,7 +209,7 @@ class Str
             $data = ($data)?'true':'false';
         }
         if(is_array($data)){
-            $data = implode(',',$data);
+            $data = json_encode($data,JSON_HEX_TAG|JSON_HEX_APOS);
         }
         return $data;
     }
