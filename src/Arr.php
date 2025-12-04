@@ -59,4 +59,17 @@ class Arr
         }while(count($pathQueue)>0);
         return $input;
     }
+
+    /**
+     * @return list<string>
+     */
+    public static function hashMapToList(array $hashMap, string $joinChar="="):array
+    {
+        $output=[];
+        foreach ($hashMap as $key => $value) {
+            if(is_array($value)) continue;
+            $output[]=$key.$joinChar.$value;
+        }
+        return $output;
+    }
 }
